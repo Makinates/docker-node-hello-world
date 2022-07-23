@@ -18,7 +18,7 @@ jobs:
   notify_merged_pull_request:
     name: Notify Slack on merged pull requests
     runs-on: ubuntu-latest
-    if: ${{ github.base_ref == 'master-omolade-ekpeni' && github.event.pull_request.merged == true }}
+#     if: ${{ github.base_ref == 'master-omolade-ekpeni' && github.event.pull_request.merged == true }}
     steps:
       - uses: abinoda/slack-action@master
         env:
@@ -34,7 +34,7 @@ jobs:
   notify_push:
     name: Notify Slack on pushes
     runs-on: ubuntu-latest
-    if: ${{ github.base_ref == 'master-omolade-ekpeni' && github.event.push == true }}
+#     if: ${{ github.base_ref == 'master-omolade-ekpeni' && github.event.push == true }}
     steps:
       - uses: abinoda/slack-action@master
         env:
