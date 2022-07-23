@@ -38,3 +38,4 @@ jobs:
 
       - name: Push Docker Image to Docker Hub
         run: docker push $DOCKERHUB_USERNAME/$REPOSITORY_NAME:${{ steps.date.outputs.date }}
+# nodejs_ci is the repository name
