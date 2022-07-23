@@ -1,50 +1,24 @@
 # Name of workflow to be displyed on Github Console
 
-name: Notify on Slack
-
-
-
-# Triggers the workflow on separate events 
-
+name: Notify on Slack on push
 on:
-
   push:
-
-    # Trigger the worflow on push event for the  branch specified
-
     branches:
-
       -  'master-omolade-ekpeni'  
 
 jobs:
   notify_push:
-
     name: Notify Slack on pushes
-
     runs-on: ubuntu-latest
-
     if: ${{ github.base_ref == 'master-omolade-ekpeni' && github.event.push == true }}
-
     steps:
-
       - uses: abinoda/slack-action@master
-
         env:
-
-          # required
-
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
         with:
-
           # custom message to send to slack
-
           args: '{\"channel\":\"${{ secrets.SLACK_PR_CHANNEL_ID }}\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Repository pushed to:* ${{ github.event.repository.name }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Pusher:* ${{ github.event.pusher.name }}\n*Commit Message:* ${{ github.event.head_commit.message }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<${{ github.event.repository.pull_request.html_url }}|View Repository>\"}}]}' 
-
-        
-
         # Pick up events even if the job is success.
-
         if: success()
 
 
