@@ -28,8 +28,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}          
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-            
-      - name: Get Current Date # get the date of the build
+            # get the date of the build
+      - name: Get Current Date 
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
 
@@ -38,4 +38,4 @@ jobs:
 
       - name: Push Docker Image to Docker Hub
         run: docker push $DOCKERHUB_USERNAME/$REPOSITORY_NAME:${{ steps.date.outputs.date }}
-# nodejs_ci is the repository name
+      # nodejs_ci is the repository name
