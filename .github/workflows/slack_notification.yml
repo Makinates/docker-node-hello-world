@@ -10,7 +10,7 @@ on:
     branches:    
       - 'master-omolade-ekpeni'
   push:
-    # Trigger the worflow on push event for the  branch specified
+    # Trigger the worflow on push event for the  branch specified.
     branches:
       -  'master-omolade-ekpeni'  
 
