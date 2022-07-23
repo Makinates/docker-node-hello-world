@@ -1,6 +1,4 @@
-# Name of workflow to be displyed on Github Console
-
-name: Notify on Slack on push
+name: Notify  Slack on push
 on:
   push:
     branches:
