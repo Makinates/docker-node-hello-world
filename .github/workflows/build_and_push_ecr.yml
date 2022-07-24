@@ -1,0 +1,42 @@
+name: 'Docker'
+on:
+  push:
+    branches:
+      -  'master-omolade-ekpeni'
+
+
+env:
+  AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: github_ci           # set this to your Amazon ECR repository name
+  ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+
+jobs:
+  build_and_push_to_registry:
+    name: Build and push Docker Image to ECR
+    # if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+            # get the date of the build
+      - name: Get Current Date 
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag  ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ steps.date.outputs.date }}
+
+      - name: Push Docker Image to AWS ECR
+        run: docker push  ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ steps.date.outputs.date }}
