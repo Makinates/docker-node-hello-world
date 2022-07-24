@@ -7,6 +7,9 @@ on:
     branches:    
       - 'master-omolade-ekpeni'
 
+# permits you to run workflow manually from actions tab
+  workflow_dispatch:
+
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
