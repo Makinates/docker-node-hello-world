@@ -1,8 +1,11 @@
 name: 'Docker'
 on:
-  push:
-    branches:
-      -  'master-omolade-ekpeni'
+  pull_request:
+    types:
+      - closed
+    branches:    
+      - 'master-omolade-ekpeni'
+
 
 env:
   REGISTRY: ghcr.io
@@ -13,7 +16,7 @@ env:
 jobs:
   build_and_push_to_registry:
     name: Build and push Docker image to GHCR
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest    
     steps:
       - name: Check out the repo
@@ -38,6 +41,5 @@ jobs:
       - name: Build Docker Image
         run: docker build . --file Dockerfile --tag  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
 
-      - name: Push Docker Image to Docker Hub
+      - name: Push Docker Image to ghcr
         run: docker push  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
-      # nodejs_ci is the repository name
