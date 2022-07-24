@@ -1,11 +1,4 @@
 name: 'Docker'
-
-# on:
-#   pull_request:
-#     types:
-#       - closed
-#     branches:    
-#       - 'master-omolade-ekpeni'
 on:
   push:
     branches:
@@ -34,7 +27,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.TOKEN }}
 
             # get the date of the build
       - name: Get Current Date 
