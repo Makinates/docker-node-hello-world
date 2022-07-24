@@ -34,7 +34,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: github_ci
 
-        run: docker build . --file Dockerfile --tag  ${{ ECR_REGISTRY }}/${{ ECR_REPOSITORY }}:${{ steps.date.outputs.date }}
+        run: docker build . --file Dockerfile --tag  $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.date.outputs.date }}
 
       - name: Push Docker Image to AWS ECR
-        run: docker push  ${{ ECR_REGISTRY }}/${{ ECR_REPOSITORY }}:${{ steps.date.outputs.date }}
+        run: docker push  $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.date.outputs.date }}
