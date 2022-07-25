@@ -24,7 +24,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      # get the date of the build
+       # get the date of the build
       - name: Get Current Date 
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
