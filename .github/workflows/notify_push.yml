@@ -9,6 +9,30 @@ jobs:
     name: Notify Slack on pushes
     runs-on: ubuntu-latest
     steps:
+      - name: Notify slack success
+        if: always()
+        id: slack # IMPORTANT: reference this step ID value in future Slack steps
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: githubactions
+          status: STARTING
+          color: warning
+
+      - name: Run tests
+      # ... your test step here
+      - name: Notify slack success
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+            # Updates existing message from the first step
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel: githubactions
+          status: SUCCESS
+          color: good
       # - uses: abinoda/slack-action@master
       #   env:
       #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -42,47 +66,4 @@ jobs:
           # slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           # channel: githubactions
 
-      - name: Notify Slack about deployment start
-        if: always()
-        id: slack # IMPORTANT: Reference this step ID value in future Slack steps.
-        uses: wearerequired/slack-messaging-action@v1
-        with:
-            bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-            channel: githubactions
-            payload: >-
-              {
-                "icon_emoji": ":rocket:",
-                "username": "Deployer",
-                "text": "Deployment started."
-              }
-
-      # - name: Deployment
-
-      - name: Notify Slack about deployment success
-        if: success() # You can use the conditional checks to determine which notification to send.
-        uses: wearerequired/slack-messaging-action@v1
-        with:
-          bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          message_id: ${{ steps.slack.outputs.message_id }} # Updates existing message from the first step.
-          channel: githubactions
-          payload: >-
-            {
-              "icon_emoji": ":rocket:",
-              "username": "Deployer",
-              "text": "Deployment finished."
-            }
-
-      - name: Notify Slack about deployment fail
-        if: failure() # You can use the conditional checks to determine which notification to send.
-        uses: wearerequired/slack-messaging-action@v1
-        with:
-          bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          message_id: ${{ steps.slack.outputs.message_id }} # Updates existing message from the first step.
-          channel: githubactions
-          payload: >-
-            {
-              "icon_emoji": ":boom:",
-              "username": "Deployer",
-              "text": "Deployment failed."
-            }         
-  
+        
