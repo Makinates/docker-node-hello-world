@@ -16,7 +16,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
-          channel: githubactions
+          channel_id: C03QAA7BNCC
           status: STARTING
           color: warning
 
@@ -30,7 +30,7 @@ jobs:
         with:
             # Updates existing message from the first step
           message_id: ${{ steps.slack.outputs.message_id }}
-          channel: githubactions
+          channel_id: C03QAA7BNCC
           status: SUCCESS
           color: good
       # - uses: abinoda/slack-action@master
