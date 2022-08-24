@@ -1,4 +1,4 @@
-name: Notify on Slack on merged pull requests
+name: Notify Slack on merged pull requests
 on:
   pull_request:
     types:
