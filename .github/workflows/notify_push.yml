@@ -20,7 +20,7 @@ jobs:
           status: STARTING
           color: warning
 
-      - name: Run tests
+      # - name: Run tests
       # ... your test step here
       - name: Notify slack success
         if: success()
