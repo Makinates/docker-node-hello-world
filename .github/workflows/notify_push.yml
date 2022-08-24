@@ -17,27 +17,72 @@ jobs:
       #     args: '{\"channel\":\"${{ secrets.SLACK_PR_CHANNEL_ID }}\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Repository pushed to:* ${{ github.event.repository.name }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Pusher:* ${{ github.event.pusher.name }}\n*Commit Message:* ${{ github.event.head_commit.message }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<${{ github.event.repository.html_url }}|View Repository>\"}}]}' 
       #   # Pick up events if the job is successful.
       #   if: success()
-      - uses: actions/checkout@v2
-      - run: exit 0
-      - name: Slack Success
-        if: always()
-        uses: kpritam/slack-job-status-action@v1
-        with:
-          job-status: ${{ job.status }}
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: githubactions
 
-  failure-notification:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: exit 1
-      - name: Slack Failure
-        if: always()
-        uses: kpritam/slack-job-status-action@v1
+      # works but message cnnot be modified
+      # - uses: actions/checkout@v2
+      # - run: exit 0
+      # - name: Slack Success
+        # if: always()
+        # uses: kpritam/slack-job-status-action@v1
+        # with:
+          # job-status: ${{ job.status }}
+          # slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          # channel: githubactions
+# 
+  # failure-notification:
+    # runs-on: ubuntu-latest
+    # steps:
+      # - uses: actions/checkout@v2
+      # - run: exit 1
+      # - name: Slack Failure
+        # if: always()
+        # uses: kpritam/slack-job-status-action@v1
+        # with:
+          # job-status: ${{ job.status}}
+          # slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          # channel: githubactions
+
+      - name: Notify Slack about deployment start
+        if: success()
+        id: slack # IMPORTANT: Reference this step ID value in future Slack steps.
+        uses: wearerequired/slack-messaging-action@v1
         with:
-          job-status: '{\"channel\":\"${{ secrets.CODESPARK_STAGING_SLACK_CHANNEL_ID }}\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*${{ job.status }}:* deploy ${{ github.ref_name }} to ${{ github.event.inputs.choice }} for ${{ github.event.repository.name }}\"}}]}'
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: githubactions
-          # ${{ job.status}}
-      
+            bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+            channel: github actions
+            payload: >-
+              {
+                "icon_emoji": ":rocket:",
+                "username": "Deployer",
+                "text": "Deployment started."
+              }
+
+      # - name: Deployment
+
+      - name: Notify Slack about deployment success
+        if: success() # You can use the conditional checks to determine which notification to send.
+        uses: wearerequired/slack-messaging-action@v1
+        with:
+          bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          message_id: ${{ steps.slack.outputs.message_id }} # Updates existing message from the first step.
+          channel: deployments
+          payload: >-
+            {
+              "icon_emoji": ":rocket:",
+              "username": "Deployer",
+              "text": "Deployment finished."
+            }
+
+      - name: Notify Slack about deployment fail
+        if: failure() # You can use the conditional checks to determine which notification to send.
+        uses: wearerequired/slack-messaging-action@v1
+        with:
+          bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          message_id: ${{ steps.slack.outputs.message_id }} # Updates existing message from the first step.
+          channel: deployments
+          payload: >-
+            {
+              "icon_emoji": ":boom:",
+              "username": "Deployer",
+              "text": "Deployment failed."
+            }         
+  
