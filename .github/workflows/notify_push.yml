@@ -34,7 +34,7 @@ jobs:
                               "short": true
                             }
                           ],
-                          "footer": "<https://github.com/${{ github.repository }}|${{ github.repository }}>",
+                        "footer": "<https://github.com/${{ github.repository }}|${{ github.repository }}>"
                     }
                 ]
             }
