@@ -25,7 +25,7 @@ jobs:
                         "author_link": "${{ github.event.sender.html_url }}",
                         "author_icon": "${{ github.event.sender.avatar_url }}",
                         "color": "good",
-                        "fallback": "Finished deploying  ${{ github.ref_name }} to ${{ github.event.inputs.choice }} for ${{ github.event.repository.name }}.",
+                        "fallback": "Deployment Finished",
                         "pretext": "Finished deploying  ${{ github.ref_name }} to ${{ github.event.inputs.choice }} for ${{ github.event.repository.name }}.",
                         "fields": [
                             {
