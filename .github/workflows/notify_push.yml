@@ -17,27 +17,27 @@ jobs:
           channel: githubactions
           payload: >-
             {
-            "icon_emoji": ":rocket:",
-            "username": "Deployer",
-            "attachments": [
-            {
-                "author_name": "${{ github.event.sender.login }}",
-                "author_link": "${{ github.event.sender.html_url }}",
-                "author_icon": "${{ github.event.sender.avatar_url }}",
-                "color": "good",
-                "fallback": "Deployment finished.",
-                "pretext": "Deployment finished.",
-                "fields": [
+                "icon_emoji": ":rocket:",
+                "username": "Deployer",
+                "attachments": [
                     {
-                      "title": "Revision",
-                      "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}@${{ github.ref }}>",
-                      "short": true
+                        "author_name": "${{ github.event.sender.login }}",
+                        "author_link": "${{ github.event.sender.html_url }}",
+                        "author_icon": "${{ github.event.sender.avatar_url }}",
+                        "color": "good",
+                        "fallback": "Deployment finished.",
+                        "pretext": "Deployment finished.",
+                        "fields": [
+                            {
+                              "title": "Revision",
+                              "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}@${{ github.ref }}>",
+                              "short": true
+                            }
+                          ],
+                          "footer": "<https://github.com/${{ github.repository }}|${{ github.repository }}>",
                     }
-                ],
-                "footer": "<https://github.com/${{ github.repository }}|${{ github.repository }}>",
+                ]
             }
-            ]
-
 
 
 
