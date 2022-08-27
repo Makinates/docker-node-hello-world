@@ -24,7 +24,7 @@ jobs:
                         "author_name": "${{ github.event.sender.login }}",
                         "author_link": "${{ github.event.sender.html_url }}",
                         "author_icon": "${{ github.event.sender.avatar_url }}",
-                        "color": "good",
+                        "color": "danger",
                         "fallback": "Deployment Finished",
                         "pretext": "${{ job.status }}: deploy ${{ github.ref_name }} to env for ${{ github.event.repository.name }}",
                         "fields": [
